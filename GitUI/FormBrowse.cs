@@ -364,29 +364,38 @@ namespace GitUI
 
             #region Branches ----------------------
 
-            sectionBranches.Reset(new SectionInfo("Branches"));
+            sectionBranches.Reset(
+                new SectionInfo(
+                    "Branches",
+                    new SectionContextAction(
+                        "New branch...",
+                        branchToolStripMenuItem.Image,
+                        (info) => NewBranch()
+                    )
+                )
+            );
             // todo: async CancellationToken(s)
             // todo: task exception handling
             Task.Factory.
                 StartNew(() => Module.GetHeads(false)).
                 ContinueWith(
-                     t =>
-                     {
-                         sectionBranches.ResetChildren(
-                             t.Result.Select(
-                                 head => new SectionInfo(
-                                             head.Name,
-                                             null,
-                                             null,
-                                             (info) =>
-                                             {
-                                                 if (UICommands.StartCheckoutBranchDialog(this, info.Title, false))
-                                                     Initialize();
-                                             }
-                                             )
-                                 )
-                             );
-                     },
+                    tashGetHeads => sectionBranches.ResetChildren(
+                        tashGetHeads.Result.Select(
+                            branch =>
+                                new SectionInfo(
+                                    branch.Name,
+                                    null,
+                                    null,
+                                    (info) =>
+                                    {
+                                        if (UICommands.StartCheckoutBranchDialog(this, info.Title, false))
+                                            Initialize();
+                                    },
+                                    new SectionContextAction("Checkout", checkoutBranchToolStripMenuItem.Image, (info) => CheckoutBranch(info.Title)),
+                                    new SectionContextAction("New branch...", branchToolStripMenuItem.Image, info => NewBranchFromExisting(info.Title))
+                            )
+                        )
+                    ),
                     TaskScheduler.FromCurrentSynchronizationContext()
             );
 
@@ -463,6 +472,8 @@ namespace GitUI
 
             Cursor.Current = Cursors.Default;
         }
+
+
 
         private void RefreshWorkingDirCombo()
         {
@@ -1958,8 +1969,7 @@ namespace GitUI
 
         private void CreateBranchToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (UICommands.StartCreateBranchDialog(this))
-                Initialize();
+            NewBranch();
         }
 
         private void RevisionGridDoubleClick(object sender, EventArgs e)
@@ -2132,7 +2142,26 @@ namespace GitUI
         void BranchSelectToolStripItem_Click(object sender, EventArgs e)
         {
             var toolStripItem = (ToolStripItem)sender;
-            if (UICommands.StartCheckoutBranchDialog(this, toolStripItem.Text, false))
+            CheckoutBranch(toolStripItem.Text);
+        }
+
+        void CheckoutBranch(string branch)
+        {
+            if (UICommands.StartCheckoutBranchDialog(this, branch, false))
+                Initialize();
+        }
+
+        /// <summary>Runs the "create branch" dialog.</summary>
+        void NewBranch()
+        {
+            if (UICommands.StartCreateBranchDialog(this))
+                Initialize();
+        }
+
+        /// <summary>Runs the (small) "create branch" dialog, using the specified start-point.</summary>
+        void NewBranchFromExisting(string startPoint)
+        {
+            if (UICommands.StartSmallBranchDialog(() => new FormBranchSmall(UICommands, startPoint), this))
                 Initialize();
         }
 
