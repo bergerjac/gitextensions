@@ -364,6 +364,7 @@ namespace GitUI
 
             #region Branches ----------------------
 
+            sectionBranches.Reset(new SectionInfo("Branches"));
             sectionBranches.AddChild(new SectionInfo(branchSelect.Text));
             // todo: async CancellationToken(s)
             // todo: task exception handling

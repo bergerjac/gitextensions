@@ -37,30 +37,40 @@
             // 
             // layoutChildren
             // 
-            this.layoutChildren.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.layoutChildren.Location = new System.Drawing.Point(0, 28);
+            this.layoutChildren.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.layoutChildren.AutoSize = true;
+            this.layoutChildren.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.layoutChildren.BackColor = System.Drawing.Color.Gainsboro;
+            this.layoutChildren.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.layoutChildren.Location = new System.Drawing.Point(0, 23);
             this.layoutChildren.Name = "layoutChildren";
-            this.layoutChildren.Size = new System.Drawing.Size(150, 122);
+            this.layoutChildren.Size = new System.Drawing.Size(0, 0);
             this.layoutChildren.TabIndex = 1;
+            this.layoutChildren.WrapContents = false;
             // 
             // btnObject
             // 
             this.btnObject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObject.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.btnObject.FlatAppearance.BorderSize = 0;
             this.btnObject.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnObject.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnObject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnObject.Location = new System.Drawing.Point(21, 0);
+            this.btnObject.MinimumSize = new System.Drawing.Size(10, 10);
             this.btnObject.Name = "btnObject";
-            this.btnObject.Size = new System.Drawing.Size(126, 25);
+            this.btnObject.Size = new System.Drawing.Size(60, 25);
             this.btnObject.TabIndex = 0;
             this.btnObject.Text = "{Title}";
             this.btnObject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnObject.UseVisualStyleBackColor = true;
+            this.btnObject.UseVisualStyleBackColor = false;
             // 
             // labImage
             // 
+            this.labImage.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.labImage.Image = global::GitUI.Properties.Resources.decrease;
             this.labImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labImage.Location = new System.Drawing.Point(0, 0);
@@ -70,22 +80,27 @@
             // 
             // panelItem
             // 
+            this.panelItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelItem.AutoSize = true;
+            this.panelItem.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelItem.Controls.Add(this.btnObject);
             this.panelItem.Controls.Add(this.labImage);
-            this.panelItem.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelItem.Location = new System.Drawing.Point(0, 0);
             this.panelItem.Name = "panelItem";
-            this.panelItem.Size = new System.Drawing.Size(150, 28);
+            this.panelItem.Size = new System.Drawing.Size(84, 28);
             this.panelItem.TabIndex = 0;
             // 
             // Section
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.layoutChildren);
             this.Controls.Add(this.panelItem);
             this.Name = "Section";
+            this.Size = new System.Drawing.Size(87, 31);
             this.panelItem.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

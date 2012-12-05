@@ -654,7 +654,7 @@ namespace GitUI
             // 
             this.sectionBranches.Location = new System.Drawing.Point(3, 3);
             this.sectionBranches.Name = "sectionBranches";
-            this.sectionBranches.Size = new System.Drawing.Size(301, 85);
+            this.sectionBranches.Size = new System.Drawing.Size(301, 180);
             this.sectionBranches.TabIndex = 0;
             // 
             // tabsMain

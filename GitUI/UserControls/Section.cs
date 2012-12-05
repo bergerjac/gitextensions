@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GitCommands;
@@ -16,7 +13,7 @@ namespace GitUI.UserControls
         public SectionInfo Info { get; private set; }
 
         [Browsable(true)]
-        [EditorBrowsable(EditorBrowsableState.Always)]
+        [EditorBrowsable(EditorBrowsableState.Never)]// should use Reset in code
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         new public string Text
         {
@@ -55,7 +52,17 @@ namespace GitUI.UserControls
 
         ControlCollection ChildControls { get { return layoutChildren.Controls; } }
         IList<Section> _Children;
-        IList<Section> ChildrenList { get { return _Children ?? (_Children = ChildControls.Cast<Section>().ToList()); } }
+        IList<Section> ChildrenList
+        {
+            get
+            {
+                if (_Children == null)
+                {
+                    return _Children = ChildControls.Cast<Section>().ToList();
+                }
+                return _Children;
+            }
+        }
         public IEnumerable<Section> Children { get { return ChildrenList; } }
 
         void OnClick(object sender, EventArgs e)
@@ -129,7 +136,7 @@ namespace GitUI.UserControls
 
             if (nOld < nNew)
             {// (not enough old slots) -> add more children
-                AddChildren(newChildren.Skip(i + 1), false);
+                AddChildren(newChildren.Skip(i), false);
             }
             else if (nNew < nOld)
             {// too many old slots -> remove leftovers
@@ -143,6 +150,8 @@ namespace GitUI.UserControls
         }
 
         public event EventHandler Selected;
+
+        public override string ToString() { return Text; }
     }
 
     public class SectionInfo
@@ -163,5 +172,7 @@ namespace GitUI.UserControls
         public Action<SectionInfo> OnSelecting { get; private set; }
         public Action<SectionInfo> OnSelected { get; private set; }
         public IEnumerable<SectionInfo> Children { get; private set; }
+
+        public override string ToString() { return Title; }
     }
 }
