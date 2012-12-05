@@ -469,6 +469,7 @@ namespace GitCommands
 
         public static string BranchCmd(string branchName, string revision, bool checkout)
         {
+            revision = revision ?? "HEAD";
             if (checkout)
                 return string.Format("checkout -b \"{0}\" \"{1}\"", branchName.Trim(), revision);
             return string.Format("branch \"{0}\" \"{1}\"", branchName.Trim(), revision);

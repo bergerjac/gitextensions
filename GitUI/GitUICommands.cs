@@ -431,23 +431,34 @@ namespace GitUI
 
         public bool StartCreateBranchDialog(IWin32Window owner)
         {
+            return TryBranchDialog(() => new FormBranch(this), owner);
+        }
+
+        public bool StartCreateBranchDialog()
+        {
+            return StartCreateBranchDialog(null);
+        }
+
+        /// <summary>If possible, runs the (small) branch dialog.</summary>
+        public bool StartSmallBranchDialog(Func<FormBranchSmall> createForm, IWin32Window owner = null)
+        {
+            return TryBranchDialog(createForm, owner);
+        }
+
+        bool TryBranchDialog(Func<Form> createForm, IWin32Window owner)
+        {
             if (!RequiresValidWorkingDir(owner))
                 return false;
 
             if (!InvokeEvent(owner, PreCreateBranch))
                 return false;
 
-            using (var form = new FormBranch(this))
+            using (var form = createForm())
                 form.ShowDialog(owner);
 
             InvokeEvent(owner, PostCreateBranch);
 
             return true;
-        }
-
-        public bool StartCreateBranchDialog()
-        {
-            return StartCreateBranchDialog(null);
         }
 
         public bool StartCloneDialog(IWin32Window owner, string url, bool openedFromProtocolHandler, GitModuleChangedEventHandler GitModuleChanged)
@@ -896,7 +907,7 @@ namespace GitUI
                 {
                     return false;
                 }
-            }            
+            }
         }
 
         public bool StartCherryPickDialog(IWin32Window owner)
