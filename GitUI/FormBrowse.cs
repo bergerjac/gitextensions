@@ -392,7 +392,8 @@ namespace GitUI
                                             Initialize();
                                     },
                                     new SectionContextAction("Checkout", checkoutBranchToolStripMenuItem.Image, (info) => CheckoutBranch(info.Title)),
-                                    new SectionContextAction("New branch...", branchToolStripMenuItem.Image, info => NewBranchFromExisting(info.Title))
+                                    new SectionContextAction("New branch...", branchToolStripMenuItem.Image, info => NewBranchFromExisting(info.Title)),
+                                    new SectionContextAction("Delete", deleteBranchToolStripMenuItem.Image, info => DeleteBranch())
                             )
                         )
                     ),
@@ -1410,9 +1411,9 @@ namespace GitUI
 
         private void DeleteBranchToolStripMenuItemClick(object sender, EventArgs e)
         {
-            if (UICommands.StartDeleteBranchDialog(this, null))
-                Initialize();
+            DeleteBranch();
         }
+
 
         private void DeleteTagToolStripMenuItemClick(object sender, EventArgs e)
         {
@@ -2163,6 +2164,15 @@ namespace GitUI
         {
             if (UICommands.StartSmallBranchDialog(() => new FormBranchSmall(UICommands, startPoint), this))
                 Initialize();
+        }
+
+        /// <summary>Runs the "delete branch" dialog.</summary>
+        void DeleteBranch()
+        {
+            if (UICommands.StartDeleteBranchDialog(this, null))
+            {
+                Initialize();
+            }
         }
 
         private void _forkCloneMenuItem_Click(object sender, EventArgs e)
