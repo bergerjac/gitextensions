@@ -7,51 +7,139 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GitCommands;
 
 namespace GitUI.UserControls
 {
     public partial class Section : UserControl
     {
-        readonly SectionInfo info;
+        public SectionInfo Info { get; private set; }
+
+        [Browsable(true)]
+        [EditorBrowsable(EditorBrowsableState.Always)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        new public string Text
+        {
+            get
+            {
+                if (Info == null)
+                {
+                    Info = new SectionInfo("{Title}");
+                }
+                return Info.Title;
+            }
+            set
+            {
+                Reset(new SectionInfo(value));
+            }
+        }
 
         public Section()
         {
             InitializeComponent();
+            btnObject.Click += OnClick;
         }
 
         public Section(SectionInfo info)
+            : this()
         {
-            this.info = info;
-            btnObject.Text = info.Title;
-            btnObject.Click += OnClick;
-
-
+            Reset(info);
         }
+
+        /// <summary>Resets with the specified <paramref name="info"/>.</summary>
+        public void Reset(SectionInfo info)
+        {
+            Info = info;
+            btnObject.Text = info.Title;
+        }
+
+        ControlCollection ChildControls { get { return layoutChildren.Controls; } }
+        IList<Section> _Children;
+        IList<Section> ChildrenList { get { return _Children ?? (_Children = ChildControls.Cast<Section>().ToList()); } }
+        public IEnumerable<Section> Children { get { return ChildrenList; } }
 
         void OnClick(object sender, EventArgs e)
         {
-            info.OnSelecting();
+            Info.OnSelecting(Info);
             if (Selected != null)
             {
                 Selected(this, EventArgs.Empty);
             }
-            info.OnSelected();
+            Info.OnSelected(Info);
         }
 
         void Expand()
         {
-            if (info.Children == null) { return; }
+            if (Info.Children == null) { return; }
 
             ParallelLoopResult result = Parallel.ForEach(
-                  info.Children,
+                  Info.Children,
                   new ParallelOptions { TaskScheduler = TaskScheduler.FromCurrentSynchronizationContext() },
                   AddChild
               );
         }
 
-        void AddChild(SectionInfo child)
+        /// <summary>Adds a single <paramref name="child"/>.</summary>
+        public void AddChild(SectionInfo child)
         {
-            layoutChildren.Controls.Add(new Section(child));
+            ChildControls.Add(new Section(child));
+        }
+
+        /// <summary>Efficiently, adds a collection of <paramref name="children"/> by pausing layout.</summary>
+        public void AddChildren(IEnumerable<SectionInfo> children)
+        {
+            AddChildren(children, true);
+        }
+
+        /// <summary>Adds a collection of <paramref name="children"/>, optionally pausing layout.</summary>
+        public void AddChildren(IEnumerable<SectionInfo> children, bool pause)
+        {
+            if (pause)
+            {
+                SuspendLayout();
+            }
+            foreach (SectionInfo child in children)
+            {
+                AddChild(child);
+            }
+
+            if (pause)
+            {
+                ResumeLayout();
+            }
+        }
+
+        /// <summary>Resets the child elements.</summary>
+        public void ResetChildren(IEnumerable<SectionInfo> children)
+        {
+            SuspendLayout();
+
+            var newChildren = children.ToList();
+
+            int i = 0;
+            int nOld = ChildrenList.Count;
+            int nNew = newChildren.Count;
+            for (;
+                i < nOld &&
+                i < nNew;
+                i++)
+            {
+                ChildrenList[i].Reset(newChildren[i]);
+            }
+
+            if (nOld < nNew)
+            {// (not enough old slots) -> add more children
+                AddChildren(newChildren.Skip(i + 1), false);
+            }
+            else if (nNew < nOld)
+            {// too many old slots -> remove leftovers
+                for (; i < nOld; i++)
+                {
+                    ChildControls.RemoveAt(i);
+                }
+            }
+
+            ResumeLayout();
         }
 
         public event EventHandler Selected;
@@ -59,9 +147,21 @@ namespace GitUI.UserControls
 
     public class SectionInfo
     {
-        public string Title { get; set; }
-        public Action OnSelecting { get; set; }
-        public Action OnSelected { get; set; }
-        public IEnumerable<SectionInfo> Children { get; set; }
+        public SectionInfo(
+            string title,
+            IEnumerable<SectionInfo> children = null,
+            Action<SectionInfo> onSelecting = null,
+            Action<SectionInfo> onSelected = null)
+        {
+            Title = title;
+            OnSelecting = onSelecting;
+            OnSelected = onSelected;
+            Children = children;
+        }
+
+        public string Title { get; private set; }
+        public Action<SectionInfo> OnSelecting { get; private set; }
+        public Action<SectionInfo> OnSelected { get; private set; }
+        public IEnumerable<SectionInfo> Children { get; private set; }
     }
 }

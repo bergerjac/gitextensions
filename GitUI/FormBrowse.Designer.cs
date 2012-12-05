@@ -69,6 +69,13 @@ namespace GitUI
             this.toolStripTextBoxFilter = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.splitterMain = new System.Windows.Forms.SplitContainer();
+            this.flowLeft = new System.Windows.Forms.FlowLayoutPanel();
+            this.sectionBranches = new GitUI.UserControls.Section();
+            this.tabsMain = new System.Windows.Forms.TabControl();
+            this.tabStatus = new System.Windows.Forms.TabPage();
+            this.tabCommits = new System.Windows.Forms.TabPage();
+            this.tabBrowse = new System.Windows.Forms.TabPage();
             this.RevisionGrid = new GitUI.RevisionGrid();
             this.CommitInfoTabControl = new System.Windows.Forms.TabControl();
             this.CommitInfoTabPage = new System.Windows.Forms.TabPage();
@@ -213,12 +220,6 @@ namespace GitUI
             this.menuStrip1 = new GitUI.MenuStripEx();
             this.gitItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gitRevisionBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.splitterMain = new System.Windows.Forms.SplitContainer();
-            this.flowLeft = new System.Windows.Forms.FlowLayoutPanel();
-            this.tabsMain = new System.Windows.Forms.TabControl();
-            this.tabStatus = new System.Windows.Forms.TabPage();
-            this.tabCommits = new System.Windows.Forms.TabPage();
-            this.tabBrowse = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.toolPanel)).BeginInit();
             this.toolPanel.Panel1.SuspendLayout();
             this.toolPanel.Panel2.SuspendLayout();
@@ -228,6 +229,12 @@ namespace GitUI
             this.MainSplitContainer.Panel1.SuspendLayout();
             this.MainSplitContainer.Panel2.SuspendLayout();
             this.MainSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitterMain)).BeginInit();
+            this.splitterMain.Panel1.SuspendLayout();
+            this.splitterMain.Panel2.SuspendLayout();
+            this.splitterMain.SuspendLayout();
+            this.flowLeft.SuspendLayout();
+            this.tabsMain.SuspendLayout();
             this.CommitInfoTabControl.SuspendLayout();
             this.CommitInfoTabPage.SuspendLayout();
             this.TreeTabPage.SuspendLayout();
@@ -247,11 +254,6 @@ namespace GitUI
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gitItemBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gitRevisionBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.splitterMain)).BeginInit();
-            this.splitterMain.Panel1.SuspendLayout();
-            this.splitterMain.Panel2.SuspendLayout();
-            this.splitterMain.SuspendLayout();
-            this.tabsMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolPanel
@@ -620,6 +622,81 @@ namespace GitUI
             this.MainSplitContainer.SplitterDistance = 210;
             this.MainSplitContainer.TabIndex = 1;
             this.MainSplitContainer.TabStop = false;
+            // 
+            // splitterMain
+            // 
+            this.splitterMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitterMain.Location = new System.Drawing.Point(0, 0);
+            this.splitterMain.Name = "splitterMain";
+            // 
+            // splitterMain.Panel1
+            // 
+            this.splitterMain.Panel1.Controls.Add(this.flowLeft);
+            // 
+            // splitterMain.Panel2
+            // 
+            this.splitterMain.Panel2.Controls.Add(this.tabsMain);
+            this.splitterMain.Size = new System.Drawing.Size(923, 210);
+            this.splitterMain.SplitterDistance = 307;
+            this.splitterMain.TabIndex = 1;
+            // 
+            // flowLeft
+            // 
+            this.flowLeft.Controls.Add(this.sectionBranches);
+            this.flowLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLeft.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLeft.Location = new System.Drawing.Point(0, 0);
+            this.flowLeft.Name = "flowLeft";
+            this.flowLeft.Size = new System.Drawing.Size(307, 210);
+            this.flowLeft.TabIndex = 0;
+            // 
+            // sectionBranches
+            // 
+            this.sectionBranches.Location = new System.Drawing.Point(3, 3);
+            this.sectionBranches.Name = "sectionBranches";
+            this.sectionBranches.Size = new System.Drawing.Size(301, 85);
+            this.sectionBranches.TabIndex = 0;
+            // 
+            // tabsMain
+            // 
+            this.tabsMain.Controls.Add(this.tabStatus);
+            this.tabsMain.Controls.Add(this.tabCommits);
+            this.tabsMain.Controls.Add(this.tabBrowse);
+            this.tabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabsMain.Location = new System.Drawing.Point(0, 0);
+            this.tabsMain.Name = "tabsMain";
+            this.tabsMain.SelectedIndex = 0;
+            this.tabsMain.Size = new System.Drawing.Size(612, 210);
+            this.tabsMain.TabIndex = 0;
+            // 
+            // tabStatus
+            // 
+            this.tabStatus.Location = new System.Drawing.Point(4, 24);
+            this.tabStatus.Name = "tabStatus";
+            this.tabStatus.Padding = new System.Windows.Forms.Padding(3);
+            this.tabStatus.Size = new System.Drawing.Size(604, 182);
+            this.tabStatus.TabIndex = 0;
+            this.tabStatus.Text = "Status";
+            this.tabStatus.UseVisualStyleBackColor = true;
+            // 
+            // tabCommits
+            // 
+            this.tabCommits.Location = new System.Drawing.Point(4, 24);
+            this.tabCommits.Name = "tabCommits";
+            this.tabCommits.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCommits.Size = new System.Drawing.Size(604, 182);
+            this.tabCommits.TabIndex = 1;
+            this.tabCommits.Text = "Commits";
+            this.tabCommits.UseVisualStyleBackColor = true;
+            // 
+            // tabBrowse
+            // 
+            this.tabBrowse.Location = new System.Drawing.Point(4, 24);
+            this.tabBrowse.Name = "tabBrowse";
+            this.tabBrowse.Size = new System.Drawing.Size(604, 182);
+            this.tabBrowse.TabIndex = 2;
+            this.tabBrowse.Text = "Browse";
+            this.tabBrowse.UseVisualStyleBackColor = true;
             // 
             // RevisionGrid
             // 
@@ -1845,73 +1922,6 @@ namespace GitUI
             this.menuStrip1.Size = new System.Drawing.Size(923, 24);
             this.menuStrip1.TabIndex = 3;
             // 
-            // splitterMain
-            // 
-            this.splitterMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitterMain.Location = new System.Drawing.Point(0, 0);
-            this.splitterMain.Name = "splitterMain";
-            // 
-            // splitterMain.Panel1
-            // 
-            this.splitterMain.Panel1.Controls.Add(this.flowLeft);
-            // 
-            // splitterMain.Panel2
-            // 
-            this.splitterMain.Panel2.Controls.Add(this.tabsMain);
-            this.splitterMain.Size = new System.Drawing.Size(923, 210);
-            this.splitterMain.SplitterDistance = 307;
-            this.splitterMain.TabIndex = 1;
-            // 
-            // flowLeft
-            // 
-            this.flowLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLeft.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLeft.Location = new System.Drawing.Point(0, 0);
-            this.flowLeft.Name = "flowLeft";
-            this.flowLeft.Size = new System.Drawing.Size(307, 210);
-            this.flowLeft.TabIndex = 0;
-            // 
-            // tabsMain
-            // 
-            this.tabsMain.Controls.Add(this.tabStatus);
-            this.tabsMain.Controls.Add(this.tabCommits);
-            this.tabsMain.Controls.Add(this.tabBrowse);
-            this.tabsMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabsMain.Location = new System.Drawing.Point(0, 0);
-            this.tabsMain.Name = "tabsMain";
-            this.tabsMain.SelectedIndex = 0;
-            this.tabsMain.Size = new System.Drawing.Size(612, 210);
-            this.tabsMain.TabIndex = 0;
-            // 
-            // tabStatus
-            // 
-            this.tabStatus.Location = new System.Drawing.Point(4, 24);
-            this.tabStatus.Name = "tabStatus";
-            this.tabStatus.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStatus.Size = new System.Drawing.Size(604, 182);
-            this.tabStatus.TabIndex = 0;
-            this.tabStatus.Text = "Status";
-            this.tabStatus.UseVisualStyleBackColor = true;
-            // 
-            // tabCommits
-            // 
-            this.tabCommits.Location = new System.Drawing.Point(4, 24);
-            this.tabCommits.Name = "tabCommits";
-            this.tabCommits.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCommits.Size = new System.Drawing.Size(604, 182);
-            this.tabCommits.TabIndex = 1;
-            this.tabCommits.Text = "Commits";
-            this.tabCommits.UseVisualStyleBackColor = true;
-            // 
-            // tabBrowse
-            // 
-            this.tabBrowse.Location = new System.Drawing.Point(4, 24);
-            this.tabBrowse.Name = "tabBrowse";
-            this.tabBrowse.Size = new System.Drawing.Size(604, 182);
-            this.tabBrowse.TabIndex = 2;
-            this.tabBrowse.Text = "Browse";
-            this.tabBrowse.UseVisualStyleBackColor = true;
-            // 
             // FormBrowse
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1936,6 +1946,12 @@ namespace GitUI
             this.MainSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.MainSplitContainer)).EndInit();
             this.MainSplitContainer.ResumeLayout(false);
+            this.splitterMain.Panel1.ResumeLayout(false);
+            this.splitterMain.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitterMain)).EndInit();
+            this.splitterMain.ResumeLayout(false);
+            this.flowLeft.ResumeLayout(false);
+            this.tabsMain.ResumeLayout(false);
             this.CommitInfoTabControl.ResumeLayout(false);
             this.CommitInfoTabPage.ResumeLayout(false);
             this.TreeTabPage.ResumeLayout(false);
@@ -1957,11 +1973,6 @@ namespace GitUI
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gitItemBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gitRevisionBindingSource)).EndInit();
-            this.splitterMain.Panel1.ResumeLayout(false);
-            this.splitterMain.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitterMain)).EndInit();
-            this.splitterMain.ResumeLayout(false);
-            this.tabsMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2155,6 +2166,7 @@ namespace GitUI
         private TabControl tabsMain;
         private TabPage tabStatus;
         private TabPage tabCommits;
-        private TabPage tabBrowse;        
+        private TabPage tabBrowse;
+        private UserControls.Section sectionBranches;        
     }
 }

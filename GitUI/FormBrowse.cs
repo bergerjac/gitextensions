@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GitCommands;
 using GitCommands.Repository;
@@ -15,6 +16,7 @@ using GitUI.Plugin;
 using GitUI.RepoHosting;
 using GitUI.Script;
 using GitUI.Statistics;
+using GitUI.UserControls;
 using GitUIPluginInterfaces;
 
 #if !__MonoCS__
@@ -359,6 +361,62 @@ namespace GitUI
             bool validWorkingDir = Module.ValidWorkingDir();
             bool hasWorkingDir = !string.IsNullOrEmpty(Module.WorkingDir);
             branchSelect.Text = validWorkingDir ? Module.GetSelectedBranch() : "";
+
+            #region Branches ----------------------
+
+            sectionBranches.AddChild(new SectionInfo(branchSelect.Text));
+            // todo: async CancellationToken(s)
+            // todo: task exception handling
+            Task.Factory.
+                StartNew(() => Module.GetHeads(false)).
+                ContinueWith(
+                     t =>
+                     {
+                         sectionBranches.ResetChildren(
+                             t.Result.Select(
+                                 head => new SectionInfo(
+                                             head.Name,
+                                             null,
+                                             null,
+                                             (info) =>
+                                             {
+                                                 if (UICommands.StartCheckoutBranchDialog(this, info.Title, false))
+                                                     Initialize();
+                                             }
+                                             )
+                                 )
+                             );
+                     },
+                    TaskScheduler.FromCurrentSynchronizationContext()
+            );
+
+            #region Other Items
+            branchSelect.DropDownItems.Add(new ToolStripSeparator());
+
+            ToolStripMenuItem item = new ToolStripMenuItem(checkoutBranchToolStripMenuItem.Text)
+            {
+                ShortcutKeys = checkoutBranchToolStripMenuItem.ShortcutKeys,
+                ShortcutKeyDisplayString = checkoutBranchToolStripMenuItem.ShortcutKeyDisplayString
+            };
+            branchSelect.DropDownItems.Add(item);
+            item.Click += CheckoutBranchToolStripMenuItemClick;
+
+            ToolStripMenuItem alwaysShowCheckoutDlg = new ToolStripMenuItem(_alwaysShowCheckoutDlgStr.Text)
+            {
+                Checked = Settings.AlwaysShowCheckoutBranchDlg
+            };
+            branchSelect.DropDownItems.Add(alwaysShowCheckoutDlg);
+            alwaysShowCheckoutDlg.Click += (hs, he) =>
+            {
+                Settings.AlwaysShowCheckoutBranchDlg = !alwaysShowCheckoutDlg.Checked;
+                alwaysShowCheckoutDlg.Checked = Settings.AlwaysShowCheckoutBranchDlg;
+            };
+
+            #endregion Other Items
+
+
+            #endregion Branches ----------------------
+
             if (hasWorkingDir)
                 HideDashboard();
             else
@@ -1566,7 +1624,7 @@ namespace GitUI
             if (UICommands.StartSubmodulesDialog(this))
                 Initialize();
         }
-        
+
         private void UpdateSubmoduleToolStripMenuItemClick(object sender, EventArgs e)
         {
             var submodule = (sender as ToolStripMenuItem).Tag as string;
