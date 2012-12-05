@@ -8,6 +8,7 @@ namespace GitUI
 {
     public sealed partial class FormBranchSmall : GitModuleForm
     {
+        readonly string _startPoint;
         private readonly TranslationString _noRevisionSelected =
             new TranslationString("Select 1 revision to create the branch on.");
         private readonly TranslationString _branchNameIsEmpty =
@@ -20,6 +21,15 @@ namespace GitUI
         {
             InitializeComponent();
             Translate();
+        }
+
+        /// <summary>Initializes a new instance, where the new branch head will point to the specified start-point.</summary>
+        /// <param name="aCommands"></param>
+        /// <param name="startPoint">The new branch head will point to this commit. It may be given as a branch name, a commit-id, or a tag. If this option is omitted, the current HEAD will be used instead.</param>
+        public FormBranchSmall(GitUICommands aCommands, string startPoint)
+            : this(aCommands)
+        {
+            _startPoint = startPoint;
         }
 
         public GitRevision Revision { get; set; }
@@ -42,12 +52,15 @@ namespace GitUI
             }
             try
             {
-                if (Revision == null)
+                if (Revision == null && _startPoint == null)
                 {
                     MessageBox.Show(this, _noRevisionSelected.Text, Text);
                     return;
                 }
-                var branchCmd = GitCommandHelpers.BranchCmd(branchName, Revision.Guid,
+                string startPoint = (Revision != null)
+                    ? Revision.Guid
+                    : _startPoint;
+                var branchCmd = GitCommandHelpers.BranchCmd(branchName, startPoint,
                                                                   CheckoutAfterCreate.Checked);
                 FormProcess.ShowDialog(this, branchCmd);
 
