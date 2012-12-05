@@ -34,7 +34,7 @@ namespace GitUI.UserControls
         public Section()
         {
             InitializeComponent();
-            btnObject.Click += OnClick;
+            btnObject.Click += OnClick;// DoubleClick does NOT work
         }
 
         public Section(SectionInfo info)
@@ -48,31 +48,38 @@ namespace GitUI.UserControls
         {
             Info = info;
             btnObject.Text = info.Title;
+            _ChildrenList = null;
         }
 
         ControlCollection ChildControls { get { return layoutChildren.Controls; } }
-        IList<Section> _Children;
+        IList<Section> _ChildrenList;
         IList<Section> ChildrenList
         {
             get
             {
-                if (_Children == null)
+                if (_ChildrenList == null)
                 {
-                    return _Children = ChildControls.Cast<Section>().ToList();
+                    return _ChildrenList = ChildControls.Cast<Section>().ToList();
                 }
-                return _Children;
+                return _ChildrenList;
             }
         }
         public IEnumerable<Section> Children { get { return ChildrenList; } }
 
         void OnClick(object sender, EventArgs e)
         {
-            Info.OnSelecting(Info);
+            if (Info.OnSelecting != null)
+            {
+                Info.OnSelecting(Info);
+            }
             if (Selected != null)
             {
                 Selected(this, EventArgs.Empty);
             }
-            Info.OnSelected(Info);
+            if (Info.OnSelected != null)
+            {
+                Info.OnSelected(Info);
+            }
         }
 
         void Expand()
