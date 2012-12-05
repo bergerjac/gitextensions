@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.layoutChildren = new System.Windows.Forms.FlowLayoutPanel();
             this.btnObject = new System.Windows.Forms.Button();
             this.labImage = new System.Windows.Forms.Label();
             this.panelItem = new System.Windows.Forms.Panel();
+            this.menuContextActions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelItem.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +57,7 @@
             this.btnObject.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnObject.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.btnObject.ContextMenuStrip = this.menuContextActions;
             this.btnObject.FlatAppearance.BorderSize = 0;
             this.btnObject.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.btnObject.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
@@ -63,7 +66,7 @@
             this.btnObject.Margin = new System.Windows.Forms.Padding(0);
             this.btnObject.MinimumSize = new System.Drawing.Size(10, 10);
             this.btnObject.Name = "btnObject";
-            this.btnObject.Size = new System.Drawing.Size(60, 24);
+            this.btnObject.Size = new System.Drawing.Size(223, 24);
             this.btnObject.TabIndex = 0;
             this.btnObject.Text = "{Title}";
             this.btnObject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -90,8 +93,13 @@
             this.panelItem.Controls.Add(this.labImage);
             this.panelItem.Location = new System.Drawing.Point(0, 0);
             this.panelItem.Name = "panelItem";
-            this.panelItem.Size = new System.Drawing.Size(84, 24);
+            this.panelItem.Size = new System.Drawing.Size(247, 24);
             this.panelItem.TabIndex = 0;
+            // 
+            // menuContextActions
+            // 
+            this.menuContextActions.Name = "menuContextActions";
+            this.menuContextActions.Size = new System.Drawing.Size(61, 4);
             // 
             // Section
             // 
@@ -102,7 +110,7 @@
             this.Controls.Add(this.layoutChildren);
             this.Controls.Add(this.panelItem);
             this.Name = "Section";
-            this.Size = new System.Drawing.Size(87, 27);
+            this.Size = new System.Drawing.Size(250, 50);
             this.panelItem.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -115,5 +123,6 @@
         private System.Windows.Forms.Button btnObject;
         private System.Windows.Forms.Label labImage;
         private System.Windows.Forms.Panel panelItem;
+        private System.Windows.Forms.ContextMenuStrip menuContextActions;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -49,6 +50,27 @@ namespace GitUI.UserControls
             Info = info;
             btnObject.Text = info.Title;
             _ChildrenList = null;
+
+            if (info.ContextActions.Any() == false)
+            {// NO context actions -> disable
+                menuContextActions.Enabled = false;
+            }
+            else
+            {
+                menuContextActions.Items.Clear();
+                menuContextActions.Enabled = true;
+                menuContextActions.Items.AddRange(
+                    info.ContextActions.Select(
+                        contextAction =>
+                            new ToolStripMenuItem(
+                                contextAction.Text,
+                                contextAction.Image,
+                                (o, e) => contextAction.OnClick(info))
+                    ).
+                    OfType<ToolStripItem>().
+                    ToArray()
+                );
+            }
         }
 
         ControlCollection ChildControls { get { return layoutChildren.Controls; } }
@@ -161,25 +183,58 @@ namespace GitUI.UserControls
         public override string ToString() { return Text; }
     }
 
+    /// <summary>Information to use for creating a <see cref="Section"/> control.</summary>
     public class SectionInfo
     {
-        public SectionInfo(
+       public SectionInfo(
             string title,
             IEnumerable<SectionInfo> children = null,
             Action<SectionInfo> onSelecting = null,
-            Action<SectionInfo> onSelected = null)
+            Action<SectionInfo> onSelected = null,
+            params SectionContextAction[] contextActions)
         {
             Title = title;
             OnSelecting = onSelecting;
             OnSelected = onSelected;
             Children = children;
+            ContextActions = contextActions;
+        }
+
+        public SectionInfo(string title, params SectionContextAction[] contextActions)
+        {
+            Title = title;
+            ContextActions = contextActions;
         }
 
         public string Title { get; private set; }
         public Action<SectionInfo> OnSelecting { get; private set; }
         public Action<SectionInfo> OnSelected { get; private set; }
         public IEnumerable<SectionInfo> Children { get; private set; }
+        public IEnumerable<SectionContextAction> ContextActions { get; private set; }
+        public object Ref { get; set; }
 
         public override string ToString() { return Title; }
+    }
+
+    public class SectionContextAction
+    {
+        public SectionContextAction(string text, Image image, Action<SectionInfo> onClick)
+        {
+            Text = text;
+            Image = image;
+            OnClick = onClick;
+        }
+
+        public string Text { get; private set; }
+        public Image Image { get; private set; }
+        public Action<SectionInfo> OnClick { get; private set; }
+
+        internal static SectionContextAction[] BranchActions()
+        {
+            return new[]
+            {
+                new SectionContextAction("New branch", null, null),
+            };
+        }
     }
 }
