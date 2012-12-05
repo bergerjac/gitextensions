@@ -60,9 +60,10 @@
             this.btnObject.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnObject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnObject.Location = new System.Drawing.Point(21, 0);
+            this.btnObject.Margin = new System.Windows.Forms.Padding(0);
             this.btnObject.MinimumSize = new System.Drawing.Size(10, 10);
             this.btnObject.Name = "btnObject";
-            this.btnObject.Size = new System.Drawing.Size(60, 25);
+            this.btnObject.Size = new System.Drawing.Size(60, 24);
             this.btnObject.TabIndex = 0;
             this.btnObject.Text = "{Title}";
             this.btnObject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -74,6 +75,7 @@
             this.labImage.Image = global::GitUI.Properties.Resources.decrease;
             this.labImage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labImage.Location = new System.Drawing.Point(0, 0);
+            this.labImage.Margin = new System.Windows.Forms.Padding(0);
             this.labImage.Name = "labImage";
             this.labImage.Size = new System.Drawing.Size(24, 24);
             this.labImage.TabIndex = 2;
@@ -88,7 +90,7 @@
             this.panelItem.Controls.Add(this.labImage);
             this.panelItem.Location = new System.Drawing.Point(0, 0);
             this.panelItem.Name = "panelItem";
-            this.panelItem.Size = new System.Drawing.Size(84, 28);
+            this.panelItem.Size = new System.Drawing.Size(84, 24);
             this.panelItem.TabIndex = 0;
             // 
             // Section
@@ -100,7 +102,7 @@
             this.Controls.Add(this.layoutChildren);
             this.Controls.Add(this.panelItem);
             this.Name = "Section";
-            this.Size = new System.Drawing.Size(87, 31);
+            this.Size = new System.Drawing.Size(87, 27);
             this.panelItem.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
