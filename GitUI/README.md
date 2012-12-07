@@ -4,12 +4,11 @@ Goal: apply menu commands as context actions to UI objects.
 
 **Goal**
 
-![](UiGoal.png)
+<img src="UiGoal.png">
 
 **Progress**
 
-![](UiProgress.png)
-
+<img src="UiProgress.png">
 
 **Model UI** - from [comment in Issue 538](https://github.com/gitextensions/gitextensions/issues/538#issuecomment-9034145)
 
@@ -17,4 +16,4 @@ Goal: apply menu commands as context actions to UI objects.
 
 **Release UI**
 
-![](Ui.png)
+<img src="Ui.png">
