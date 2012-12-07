@@ -4,11 +4,11 @@ Goal: apply menu commands as context actions to UI objects.
 
 **Goal**
 
-<img src="UiGoal.png">
+<img src="gitextensions/tree/iss538-gui-layout/GitUI/UiGoal.png">
 
 **Progress**
 
-<img src="UiProgress.png">
+<img src="gitextensions/tree/iss538-gui-layout/GitUI/UiProgress.png">
 
 **Model UI** - from [comment in Issue 538](https://github.com/gitextensions/gitextensions/issues/538#issuecomment-9034145)
 
@@ -16,4 +16,4 @@ Goal: apply menu commands as context actions to UI objects.
 
 **Release UI**
 
-<img src="Ui.png">
+<img src="gitextensions/tree/iss538-gui-layout/GitUI/Ui.png">
